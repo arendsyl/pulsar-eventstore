@@ -1,14 +1,13 @@
 package net.arendsyl
 
+import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.{ActorRef, Behavior}
-import akka.actor.typed.scaladsl.{ActorContext, Behaviors}
-import com.sksamuel.pulsar4s.{Producer, ProducerMessage, PulsarAsyncClient, Reader, ReaderConfig, RollBack, Topic}
+import com.sksamuel.pulsar4s._
 import net.arendsyl.JsonFormats.userSchema
 import net.arendsyl.UserRegistry.{Command, CreateUser, DeleteUser}
 
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import scala.annotation.tailrec
 
 sealed trait PulsarReceiveCommand
 case class ReadTopic(since: Long) extends PulsarReceiveCommand
@@ -24,9 +23,11 @@ object PulsarReceiverActor {
   def apply(pulsarAsyncClient: PulsarAsyncClient, registry: ActorRef[Command]): Behavior[PulsarReceiveCommand] = Behaviors.setup { context =>
     implicit val ec = context.executionContext
     implicit val system = context.system
+    implicit val logger = context.log
 
     def receive(reader: Reader[User]): Unit = {
       reader.nextAsync.foreach { message =>
+        logger.info(s"received message : $message")
         Option(message.value)
           .fold(
             registry ! DeleteUser(UUID.fromString(message.key.get)))(

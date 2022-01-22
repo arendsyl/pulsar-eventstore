@@ -3,18 +3,12 @@ package net.arendsyl
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.DateTime
 import akka.http.scaladsl.server.Route
 import com.sksamuel.pulsar4s.{ProducerConfig, PulsarClient, PulsarClientConfig, Topic}
 import net.arendsyl.JsonFormats.userSchema
-import org.apache.pulsar.client.api.Authentication
-import org.apache.pulsar.client.impl.auth.{AuthenticationBasic, AuthenticationToken}
+import org.apache.pulsar.client.impl.auth.AuthenticationToken
 
-import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.util.Failure
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 //#main-class
 object QuickstartApp {
