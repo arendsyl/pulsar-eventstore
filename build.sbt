@@ -2,11 +2,10 @@ lazy val akkaHttpVersion = "10.2.7"
 lazy val akkaVersion    = "2.6.18"
 lazy val pulsar4sVersion = "2.8.1"
 
-// Run in a separate JVM, to make sure sbt waits until all threads have
-// finished before returning.
-// If you want to keep the application running while executing other
-// sbt tasks, consider https://github.com/spray/sbt-revolver/
-fork := true
+enablePlugins(JavaAppPackaging)
+
+mappings in (Compile, packageDoc) := Seq()
+
 
 lazy val root = (project in file(".")).
   settings(
