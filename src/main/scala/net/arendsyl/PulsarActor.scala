@@ -33,6 +33,7 @@ object PulsarReceiverActor {
             registry ! DeleteUser(UUID.fromString(message.key.get)))(
             registry ! CreateUser(_)
           )
+        consumer.acknowledge(message)
         receive(consumer)
       }
     }
