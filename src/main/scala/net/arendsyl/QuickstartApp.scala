@@ -10,7 +10,6 @@ import org.apache.pulsar.client.api.SubscriptionInitialPosition
 import org.apache.pulsar.client.impl.auth.AuthenticationToken
 
 import java.util.UUID
-import java.util.concurrent.TimeUnit
 import scala.util.{Failure, Success}
 
 //#main-class
